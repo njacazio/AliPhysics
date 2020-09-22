@@ -62,7 +62,7 @@
 class AliAnalysisTaskSpectraTPCRun3 : public AliAnalysisTaskSE {
   public:
   AliAnalysisTaskSpectraTPCRun3();
-  AliAnalysisTaskSpectraTPCRun3(const char* name, const Bool_t readAODs, const Bool_t useO2PID);
+  AliAnalysisTaskSpectraTPCRun3(const char* name, const Bool_t readAODs, const Bool_t useO2PID, const Bool_t useTrackCuts);
   virtual ~AliAnalysisTaskSpectraTPCRun3();
 
   virtual void UserCreateOutputObjects();
@@ -77,6 +77,7 @@ class AliAnalysisTaskSpectraTPCRun3 : public AliAnalysisTaskSE {
   const Bool_t fMakeTOFPlots = kFALSE; // Flag to produce TOF plots
   const Bool_t fAODMode;               // Flag to read AODs instead of ESDs
   const Bool_t fUseO2PID;              // Flag to use the PID like in O2
+  const Bool_t fUseTrackCuts;          // Flag to check the track cuts
   // PID Parameters
   Double_t bbparam[7];     // Parametrization for the BetheBloch
   Double_t bbresoparam[2]; // Parametrization for the BetheBloch resolution
@@ -161,6 +162,7 @@ class AliAnalysisTaskSpectraTPCRun3 : public AliAnalysisTaskSE {
       , fMakeTOFPlots(t.fMakeTOFPlots)
       , fAODMode(t.fAODMode)
       , fUseO2PID(t.fUseO2PID)
+      , fUseTrackCuts(t.fUseTrackCuts)
       , fEventCut()
   {
     for (Int_t i = 0; i < 7; i++)

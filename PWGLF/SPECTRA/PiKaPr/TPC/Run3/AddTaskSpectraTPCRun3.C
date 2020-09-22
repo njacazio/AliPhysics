@@ -1,4 +1,4 @@
-AliAnalysisTaskSpectraTPCRun3* AddTaskSpectraTPCRun3(Bool_t mc = kFALSE, Bool_t aod = kTRUE, Bool_t o2pid = kTRUE)
+AliAnalysisTaskSpectraTPCRun3* AddTaskSpectraTPCRun3(Bool_t mc = kFALSE, Bool_t aod = kTRUE, Bool_t o2pid = kTRUE, Bool_t trackcuts = kTRUE)
 {
 
   /* check analysis manager */
@@ -48,7 +48,7 @@ AliAnalysisTaskSpectraTPCRun3* AddTaskSpectraTPCRun3(Bool_t mc = kFALSE, Bool_t 
   }
 
   /*  create task and connect input/output */
-  AliAnalysisTaskSpectraTPCRun3* task = new AliAnalysisTaskSpectraTPCRun3("SpectraTPCRun3", aod, o2pid);
+  AliAnalysisTaskSpectraTPCRun3* task = new AliAnalysisTaskSpectraTPCRun3("SpectraTPCRun3", aod, o2pid, trackcuts);
   mgr->ConnectInput(task, 0, inputc);
   mgr->ConnectOutput(task, 1, outputc);
   if (mc)

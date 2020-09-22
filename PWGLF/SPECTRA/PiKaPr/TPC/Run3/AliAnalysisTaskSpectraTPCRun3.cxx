@@ -28,15 +28,17 @@ AliAnalysisTaskSpectraTPCRun3::AliAnalysisTaskSpectraTPCRun3()
     : AliAnalysisTaskSE("")
     , fAODMode(kTRUE)
     , fUseO2PID(kTRUE)
+    , fUseTrackCuts(kTRUE)
     , fEventCut()
 {
   // default constructor, nothing to do
 }
 
-AliAnalysisTaskSpectraTPCRun3::AliAnalysisTaskSpectraTPCRun3(const char* name, const Bool_t readAODs, const Bool_t useO2PID)
+AliAnalysisTaskSpectraTPCRun3::AliAnalysisTaskSpectraTPCRun3(const char* name, const Bool_t readAODs, const Bool_t useO2PID, const Bool_t useTrackCuts)
     : AliAnalysisTaskSE(name)
     , fAODMode(readAODs)
     , fUseO2PID(useO2PID)
+    , fUseTrackCuts(useTrackCuts)
     , fEventCut()
 {
   bbparam[0] = 0.0330656;
@@ -249,12 +251,14 @@ void AliAnalysisTaskSpectraTPCRun3::UserExec(Option_t*)
     if (TMath::Abs(AOD_ESD(fTrackAOD, fTrackESD, Eta())) > fEtaMax)
       continue;
     /* check accept track */
-    if (fAODMode) {
-      if (!fTrackAOD->TestFilterBit(32))
-        continue;
-    } else {
-      if (!fTrackCuts->AcceptTrack(fTrackESD))
-        continue;
+    if (fUseTrackCuts) {
+      if (fAODMode) {
+        if (!fTrackAOD->TestFilterBit(32))
+          continue;
+      } else {
+        if (!fTrackCuts->AcceptTrack(fTrackESD))
+          continue;
+      }
     }
 
     const Double_t momTPC = AOD_ESD(fTrackAOD, fTrackESD, GetTPCmomentum());
